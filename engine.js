@@ -2,7 +2,7 @@ var Game = new function() {
 
   // Inicialización del juego
   // se obtiene el canvas, se cargan los recursos y se llama a callback
-  this.initialize= function(canvasElementId, sprite_data, callback) {
+  this.initialize = function(canvasElementId, sprite_data, callback) {
 
     this.canvas = document.getElementById(canvasElementId);
     this.width = this.canvas.width;

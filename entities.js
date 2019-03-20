@@ -190,7 +190,6 @@ Frog.prototype.draw = function(ctx) {
 Frog.prototype.hit = function() {
   if(!this.onTrunk && this.board.remove(this)){//|| !this.onTurtle && this.board.remove(this)) {
     this.board.add(new Death(this.x + this.w/2, this.y + this.h/2));
-    loseGame();
   }
 }
 
@@ -307,6 +306,7 @@ Death.prototype.step = function(dt) {
   this.frame = Math.floor(this.subFrame++ / 10);
   if(this.subFrame >= 40) {
       this.board.remove(this);
+      loseGame();
   }
 };
 

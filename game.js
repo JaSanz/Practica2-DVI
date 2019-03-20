@@ -21,7 +21,7 @@ var playGame = function() {
     }
   }
 
-  agua.add(new Level(level1,winGame));
+  agua.add(new Spawner(level1,winGame));
 
   agua.add(new Frog());
 
@@ -30,7 +30,7 @@ var playGame = function() {
 
 var winGame = function() {
   Game.setBoard(3,new TitleScreen("You win!", 
-                                  "Press fire to play again",
+                                  "Press space to play again",
                                   playGame));
 };
 
@@ -38,7 +38,7 @@ var winGame = function() {
 
 var loseGame = function() {
   Game.setBoard(3,new TitleScreen("You lose!", 
-                                  "Press fire to play again",
+                                  "Press space to play again",
                                   playGame));
 };
 

@@ -17,7 +17,7 @@ tile_verde: {sx: 94, sy: 224, w: 58, h: 58, frames: 1},
 tile_negro: {sx: 221, sy: 224, w: 58, h: 58, frames: 1},
 arbusto: {sx: 285, sy: 224, w: 58, h: 58, frames: 1},
 arbusto_nenufar: {sx: 348, sy: 224, w: 58, sy: 58, frames: 1},
-tortuga: {sx: 5, sy: 288, w: 49, h: 46, frames: 1},
+tortuga: {sx: 5, sy: 288, w: 51, h: 48, frames: 1},
 rana: {sx: 0, sy: 339, w: 40, h: 48, frames: 7}
 };
 
@@ -370,14 +370,48 @@ Frog.prototype.hit = function() {
   }
 }
 
+
+//////////////////////////////////////////////////////////
+/// TORTUGAS
+//////////////////////////////////////////////////////////
+
+var tortugas = {
+  tortuga:    {x: -40, y: 196, sprite: 'tortuga', V: 100, D: 1, frame: 0}
+};
+
+var Tortuga = function(blueprint, override) {
+  this.merge(this.baseParameters);
+  this.setup(blueprint.sprite,blueprint);
+  this.merge(override);
+  this.subFrame = 0;
+}
+
+Tortuga.prototype = new Sprite();
+Tortuga.prototype.baseParameters = { V: 0, D: 0,};
+Tortuga.prototype.type = OBJECT_TORTUGA;
+
+Tortuga.prototype.step = function(dt) {
+
+  this.vx = this.V*this.D;
+  this.x += this.vx*dt;
+   if(this.x < -this.w || this.x > Game.width) {
+        this.board.remove(this);
+   }
+
+   this.frame = Math.floor(this.subFrame++ / 9);
+   if(this.subFrame > 45) {
+     this.subFrame = 0;
+   }
+ }
+
 //////////////////////////////////////////////////////////
 /// TRONCOS
 //////////////////////////////////////////////////////////
 
 var troncos = {
-  tronco_pequeño:      { x: 550,   y: 240, sprite: 'tronco_pequeño', V: 100, D: -1 },
-  tronco_mediano:      { x: -50,   y: 144, sprite: 'tronco_mediano', V: 70, D: 1 },
-  tronco_grande:       { x: 550,   y: 48, sprite: 'tronco_grande',V: 150, D: -1 }
+  tronco_pequeño:      { x: 550,   y: 240, sprite: 'tronco_pequeño', V: 100, D:-1 },
+  tronco_mediano:      { x:-150,   y: 144, sprite: 'tronco_mediano', V: 70 , D: 1 },
+  tronco_grande:       { x: 550,   y:  48, sprite: 'tronco_grande' , V: 150, D:-1 }
 };
 
 var Tronco = function(blueprint) {
@@ -402,16 +436,17 @@ Tronco.prototype.step = function(dt) {
 //////////////////////////////////////////////////////////
 
 var vehiculos = {
-  coche_azul:       { x: -50,   y: 528, sprite: 'coche_azul', V: 100, D: 1 },
-  coche_verde:      { x: -50,   y: 480, sprite: 'coche_verde', V: 70, D: 1 },
-  coche_amarillo:   { x: -50,   y:336, sprite: 'coche_amarillo',V: 150, D: 1 },
-  camion_bomberos:  { x: -50, y: 384, sprite: 'camion_bomberos', V: 105, D: 1 },
-  camion_grande:    { x: 550,   y:432, sprite: 'camion_grande', V: 65, D: -1 }   
+  coche_azul:       { x: -50,   y: 528, sprite: 'coche_azul',     V: 100, D: 1 },
+  coche_verde:      { x: -50,   y: 480, sprite: 'coche_verde',    V: 70,  D: 1 },
+  coche_amarillo:   { x: -50,   y: 336, sprite: 'coche_amarillo', V: 150, D: 1 },
+  camion_bomberos:  { x: -50,   y: 384, sprite: 'camion_bomberos',V: 105, D: 1 },
+  camion_grande:    { x: 550,   y: 432, sprite: 'camion_grande',  V: 65,  D:-1 }   
 };
 
-var Vehiculo = function(blueprint) {
+var Vehiculo = function(blueprint, override) {
   this.merge(this.baseParameters);
   this.setup(blueprint.sprite,blueprint);
+  this.merge(override);
 }
 
 Vehiculo.prototype = new Sprite();
@@ -426,18 +461,10 @@ Vehiculo.prototype.step = function(dt) {
         this.board.remove(this);
    }
 
-<<<<<<< HEAD
-   var collision = this.board.collide(this,OBJECT_PLAYER);
-   if(collision) {
-     collision.hit();
-   }
- }
-=======
   var collision = this.board.collide(this,OBJECT_PLAYER);
     if(collision)
       collision.hit();
 }
->>>>>>> af2ba7e166092914f2b61ee79074be5bdcbf451f
 
 //////////////////////////////////////////////////////////
 /// MUERTE

@@ -22,7 +22,10 @@ var playGame = function() {
       agua.add(new Water(i * 40 + 15, j * 48));
     }
   }
-
+  for(z = 0; z < 13; ++z) {
+    agua.add(new Home(z*40+15, 0));
+  }
+  
   agua.add(new Spawner(level1,winGame));
 
   agua.add(new Frog());
@@ -49,5 +52,5 @@ var loseGame = function() {
 // y este después de realizar la inicialización llamará a
 // startGame
 window.addEventListener("load", function() {
-  Game.initialize("game",sprites,playGame);
+  Game.initialize("game",sprites,startGame);
 });

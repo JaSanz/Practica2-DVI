@@ -1,7 +1,7 @@
 var level1 = [
   // Start,  Gap,  Type,   Enemy
    [ 0, 3000, 'coche_azul', 0 ],
-   [ 2, 2000, 'coche_verde', 0 ],
+   [ 2, 2500, 'coche_verde', 0 ],
    [ 3, 100, 'coche_amarillo', 0],
    [ 3, 5000, 'camion_bomberos', 0 ],
    [ 4, 5000, 'camion_grande', 0 ],

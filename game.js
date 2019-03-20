@@ -23,7 +23,7 @@ var playGame = function() {
     }
   }
 
-  agua.add(new Level(level1,winGame));
+  agua.add(new Spawner(level1,winGame));
 
   agua.add(new Frog());
 
@@ -49,5 +49,5 @@ var loseGame = function() {
 // y este después de realizar la inicialización llamará a
 // startGame
 window.addEventListener("load", function() {
-  Game.initialize("game",sprites,startGame);
+  Game.initialize("game",sprites,playGame);
 });

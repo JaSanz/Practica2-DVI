@@ -362,6 +362,17 @@ var Frog = function() {
 
 Frog.prototype = new Sprite();
 Frog.prototype.type = OBJECT_PLAYER;
+Frog.prototype.draw = function(ctx) {
+  var s = SpriteSheet.map[this.sprite];
+  if(!this.frame) this.frame = 0;
+  rotation = this.angle * Math.PI / 180;
+  ctx.save();
+  ctx.translate(this.x + s.w / 2, this.y + s.h / 2);
+  ctx.rotate(rotation);
+  ctx.drawImage(SpriteSheet.image, s.sx + this.frame * s.w, s.sy, s.w, s.h, 
+       -s.w / 2, -s.h / 2, s.w, s.h);
+  ctx.restore();
+}
 
 Frog.prototype.hit = function() {
   if(this.board.remove(this)) {

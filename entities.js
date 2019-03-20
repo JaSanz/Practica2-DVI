@@ -13,7 +13,7 @@ calaveras: {sx: 211, sy: 128, w: 48, h: 35, frames: 4},
 nenufar: {sx: 3, sy: 234, w: 45, h: 41, frames: 1},
 mosca: {sx: 54, sy: 239, w: 36, h: 34, frames: 1},
 tile_azul: {sx: 160, sy: 226, w: 40, h: 48, frames: 1},
-tile_verde: {sx: 94, sy: 224, w: 58, h: 48, frames: 1},
+tile_verde: {sx: 97, sy: 224, w: 40, h: 48, frames: 1},
 tile_negro: {sx: 221, sy: 224, w: 58, h: 58, frames: 1},
 arbusto: {sx: 285, sy: 224, w: 58, h: 58, frames: 1},
 arbusto_nenufar: {sx: 348, sy: 224, w: 58, sy: 58, frames: 1},
@@ -119,7 +119,7 @@ var Frog = function() {
     }
     else if(Game.keys['up'] && this.jumpTime < 0) {
       auxY += -48;
-      if(auxY > 0) {
+      if(auxY >= 0) {
         this.y += -this.maxVel;
         this.jumpTime = this.jumpStep;
         this.animation = true;
@@ -148,19 +148,19 @@ var Frog = function() {
     var collision2 = this.board.collide(this, OBJECT_TORTUGA);
     if(collision.sprite == 'tronco_pequeño') {
       this.onTrunk = true;
-      this.vx = -troncos.tronco_pequeño.V;
+      this.vx = troncos.tronco_pequeño.V * troncos.tronco_pequeño.D;
     }
     else if(collision.sprite == 'tronco_mediano') {
       this.onTrunk = true;
-      this.vx = troncos.tronco_mediano.V;
+      this.vx = troncos.tronco_mediano.V * troncos.tronco_mediano.D;
     }
     else if(collision.sprite == 'tronco_grande') {
       this.onTrunk = true;
-      this.vx = -troncos.tronco_grande.V;
+      this.vx = troncos.tronco_grande.V * troncos.tronco_grande.D;
     }
     else if(collision2.sprite == 'tortuga') {
       this.onTurtle = true;
-      this.vx = -tortugas.V;
+      this.vx = tortugas.tortuga.V * tortugas.tortuga.D;
     }
     else {
       this.onTrunk = false;
@@ -175,7 +175,7 @@ var Frog = function() {
 
 Frog.prototype = new Sprite();
 Frog.prototype.type = OBJECT_PLAYER;
-Frog.prototype.draw = function(ctx) {
+/*Frog.prototype.draw = function(ctx) {
   var s = SpriteSheet.map[this.sprite];
   if(!this.frame) this.frame = 0;
   rotation = this.angle * Math.PI / 180;
@@ -185,10 +185,10 @@ Frog.prototype.draw = function(ctx) {
   ctx.drawImage(SpriteSheet.image, s.sx + this.frame * s.w, s.sy, s.w, s.h, 
        -s.w / 2, -s.h / 2, s.w, s.h);
   ctx.restore();
-}
+}*/
 
 Frog.prototype.hit = function() {
-  if(!this.onTrunk && this.board.remove(this)){//|| !this.onTurtle && this.board.remove(this)) {
+  if(!this.onTrunk && !this.onTurtle && this.board.remove(this)){
     this.board.add(new Death(this.x + this.w/2, this.y + this.h/2));
   }
 }
@@ -233,7 +233,7 @@ Tortuga.prototype.step = function(dt) {
 
 var troncos = {
   tronco_pequeño:      { x: 550,   y: 240, sprite: 'tronco_pequeño', V: 100, D:-1 },
-  tronco_mediano:      { x:-150,   y: 144, sprite: 'tronco_mediano', V: 70 , D: 1 },
+  tronco_mediano:      { x: 550,   y: 144, sprite: 'tronco_mediano', V: 70 , D:-1 },
   tronco_grande:       { x: 550,   y:  48, sprite: 'tronco_grande' , V: 150, D:-1 }
 };
 
@@ -339,7 +339,7 @@ var Home = function(centerX, centerY) {
   this.y = centerY;
 
   this.step = function(dt){
-    var collision = this.board.collide(this,OBJECT_PLAYER);
+    var collision = this.board.collide(this, OBJECT_PLAYER);
     if(collision) {
       winGame();
     }
@@ -348,7 +348,7 @@ var Home = function(centerX, centerY) {
 
 Home.prototype = new Sprite();
 Home.prototype.type = OBJECT_HOME;
-Home.prototype.draw = function(ctx) {}
+//Home.prototype.draw = function(ctx) {}
 
 /////////////////////////////////////////////////////////
 /// TÍTULO

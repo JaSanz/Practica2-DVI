@@ -21,7 +21,7 @@ var playGame = function() {
     }
   }
   for(z = 0; z < 13; ++z) {
-    agua.add(new Home(z*40+15, 0));
+    agua.add(new Home(z * 40 + 15, 0));
   }
   
   agua.add(new Spawner(level1,winGame));

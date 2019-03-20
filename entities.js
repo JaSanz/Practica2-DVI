@@ -373,12 +373,11 @@ Frog.prototype.hit = function(damage) {
 //////////////////////////////////////////////////////////
 
 var vehiculos = {
-  coche_azul:       { x: 0,   y: -50, sprite: 'coche_azul', E: 100 },
-  coche_verde:      { x: 50,   y: -100, sprite: 'coche verde', E: 200  },
-  coche_amarillo:   { x: 100,   y: -50, sprite: 'coche_amarillo',E: 200 },
-  camion_bomberos:   { x: 150, y: -50, sprite: 'camion_bombero', E: 100 },
-  camion_grande:     { x: 200,   y: -50, sprite: 'camion_grande', E: 60 },   
-
+  coche_azul:       { x: 10,   y: 200, sprite: 'coche_azul', E: 100, A: 1 },
+  coche_verde:      { x: 50,   y: 100, sprite: 'coche verde', E: 200, A: -1 },
+  coche_amarillo:   { x: 100,   y:50, sprite: 'coche_amarillo',E: 200, A: 1 },
+  camion_bomberos:   { x: 150, y: 50, sprite: 'camion_bombero', E: 100, A: 1 },
+  camion_grande:     { x: 200,   y:50, sprite: 'camion_grande', E: 60, A: -1 },   
 };
 
 var Vehiculo = function(blueprint,override) {
@@ -388,21 +387,20 @@ var Vehiculo = function(blueprint,override) {
 }
 
 Vehiculo.prototype = new Sprite();
-Vehiculo.prototype.baseParameters = { A: 0, B: 0, C: 0, D: 0, 
-                                   E: 0, F: 0, G: 0, H: 0,
-                                   t: 0, damage: 1 };
+Vehiculo.prototype.baseParameters = { A: 0, E: 0,};
 
 
 Vehiculo.prototype.type = OBJECT_VEHICULO;
 
 Vehiculo.prototype.step = function(dt) {
+
   this.t += dt;
  // this.vx = this.A + this.B * Math.sin(this.C * this.t + this.D);
  // this.vy = this.E + this.F * Math.sin(this.G * this.t + this.H);
-  this.x += this.vx * dt * this.E;
-  this.y += this.vy * dt * this.E;
-  if(this.y > Game.height ||
-     this.x < -this.w ||
+ this.x += 50;
+ this.y = this.y;
+  //this.y += this.vy * dt * this.E;
+  if(this.x < -this.w ||
      this.x > Game.width) {
        this.board.remove(this);
   }

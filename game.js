@@ -9,7 +9,8 @@ var playGame = function() {
 
   var board = new GameBoard();
   board.add(new Fondo());
-  board.add(new Level(level1,winGame));
+ // board.add(new Level(level1,winGame));
+ Game.setBoard(1,new Vehiculo(vehiculos['coche_azul'],null)); //////////////
 
   Game.setBoard(0, board);
 

@@ -1,9 +1,10 @@
 // Especifica lo que se debe pintar al cargar el juego
-/*var startGame = function() {
-  Game.setBoard(0,new TitleScreen("Frogger", 
-                                  "Press up, down, left or right to start playing",
+var startGame = function() {
+  Game.setBoard(0, new Title());
+  Game.setBoard(1,new TitleScreen("",
+                                  "Press space to start playing",
                                   playGame));
-}*/
+}
 
 var playGame = function() {
 
@@ -30,19 +31,18 @@ var playGame = function() {
 }
 
 var winGame = function() {
-  Game.setBoard(3,new TitleScreen("You win!", 
-                                  "Press fire to play again",
+  Game.setBoard(1,new TitleScreen("You win!", 
+                                  "Press space to play again",
                                   playGame));
 };
 
 
 
 var loseGame = function() {
-  Game.setBoard(3,new TitleScreen("You lose!", 
-                                  "Press fire to play again",
+  Game.setBoard(1,new TitleScreen("You lose!", 
+                                  "Press space to play again",
                                   playGame));
 };
-
 
 // Indica que se llame al método de inicialización una vez
 // se haya terminado de cargar la página HTML

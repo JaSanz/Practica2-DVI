@@ -505,3 +505,17 @@ var Water = function(centerX, centerY) {
 Water.prototype = new Sprite();
 Water.prototype.type = OBJECT_AGUA;
 Water.prototype.draw = function(ctx) {}
+
+/////////////////////////////////////////////////////////
+/// TÍTULO
+/////////////////////////////////////////////////////////
+var Title = function() {
+  this.setup('titulo');
+
+  this.x = Game.width/2 - this.w/3;
+  this.y = Game.height/2 - this.h + 75;
+
+  this.step = function(dt){  }
+};
+
+Title.prototype = new Sprite();

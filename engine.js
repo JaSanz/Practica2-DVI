@@ -90,7 +90,6 @@ var Game = new function() {
   
   // Change an active game board
   this.setBoard = function(num,board) { boards[num] = board; };
-  this.deleteBoard = function(num) {boards[num].remove(boards[num]);}
 };
 
 
@@ -212,7 +211,7 @@ var GameBoard = function() {
   this.remove = function(obj) { 
     var idx = this.removed.indexOf(obj);
     if(idx == -1) {
-      this.removed.push(obj); 
+      this.removed.push(obj);
       return true;
     } else {
       return false;

@@ -348,7 +348,7 @@ var Home = function(centerX, centerY) {
 
 Home.prototype = new Sprite();
 Home.prototype.type = OBJECT_HOME;
-//Home.prototype.draw = function(ctx) {}
+Home.prototype.draw = function(ctx) {}
 
 /////////////////////////////////////////////////////////
 /// TÍTULO

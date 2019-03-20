@@ -1,10 +1,11 @@
 var level1 = [
   // Start,    End, Gap,  Type,   Override
-   [ 0,       4000, 500, 'coche_azul' ],
-   [ 6000,   13000, 800, 'coche_verde' ],
-   [ 12000,  16000, 400, 'coche_amarillo' ],
-   [ 18200,  20000, 500, 'camion_bombero', { x: 150 } ],
-   [ 18200,  20000, 500, 'camion_grande', { x: 100 } ],
+   [ 0,  40000000, 3000, 'coche_azul' ],
+   [ 1,  13000000, 5000, 'coche_verde' ],
+   [ 2,  16000000, 2000, 'coche_amarillo' ],
+   [ 3,  20000000, 5000, 'camion_bomberos' ],
+   [ 4,  20000000, 5000, 'camion_grande' ]
+   
  ];
  
  var Level = function(levelData,callback) {
@@ -39,7 +40,7 @@ var level1 = [
            override = curShip[4];
  
        // Add a new enemy with the blueprint and override
-       this.board.add(new Vehiculo(vehiculo,override));
+       this.board.add(new Vehiculo(vehiculo));
  
        // Increment the start time by the gap
        curShip[0] += curShip[2];

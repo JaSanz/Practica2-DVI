@@ -362,50 +362,38 @@ var Frog = function() {
 Frog.prototype = new Sprite();
 Frog.prototype.type = OBJECT_PLAYER;
 
-Frog.prototype.hit = function() {
-  if(this.board.remove(this)) {
-    loseGame();
-  }
-}
 
 //////////////////////////////////////////////////////////
 /// COCHES
 //////////////////////////////////////////////////////////
 
 var vehiculos = {
-  coche_azul:       { x: 10,   y: 200, sprite: 'coche_azul', E: 100, A: 1 },
-  coche_verde:      { x: 50,   y: 100, sprite: 'coche verde', E: 200, A: -1 },
-  coche_amarillo:   { x: 100,   y:50, sprite: 'coche_amarillo',E: 200, A: 1 },
-  camion_bomberos:   { x: 150, y: 50, sprite: 'camion_bombero', E: 100, A: 1 },
-  camion_grande:     { x: 200,   y:50, sprite: 'camion_grande', E: 60, A: -1 },   
+  coche_azul:       { x: -50,   y: 528, sprite: 'coche_azul', V: 100, D: 1 },
+  coche_verde:      { x: -50,   y: 480, sprite: 'coche_verde', V: 70, D: 1 },
+  coche_amarillo:   { x: -50,   y:336, sprite: 'coche_amarillo',V: 150, D: 1 },
+  camion_bomberos:  { x: -50, y: 384, sprite: 'camion_bomberos', V: 105, D: 1 },
+  camion_grande:    { x: 550,   y:432, sprite: 'camion_grande', V: 65, D: -1 }   
 };
 
-var Vehiculo = function(blueprint,override) {
+var Vehiculo = function(blueprint) {
   this.merge(this.baseParameters);
   this.setup(blueprint.sprite,blueprint);
-  this.merge(override);
 }
 
 Vehiculo.prototype = new Sprite();
-Vehiculo.prototype.baseParameters = { A: 0, E: 0,};
+Vehiculo.prototype.baseParameters = { V: 0, D: 0,};
 
 
 Vehiculo.prototype.type = OBJECT_VEHICULO;
 
 Vehiculo.prototype.step = function(dt) {
 
-  this.t += dt;
- // this.vx = this.A + this.B * Math.sin(this.C * this.t + this.D);
- // this.vy = this.E + this.F * Math.sin(this.G * this.t + this.H);
- this.x += 50;
- this.y = this.y;
-  //this.y += this.vy * dt * this.E;
-  if(this.x < -this.w ||
-     this.x > Game.width) {
-       this.board.remove(this);
-  }
-}
-
+  this.vx = this.V*this.D;
+  this.x += this.vx*dt;
+   if(this.x < -this.w || this.x > Game.width) {
+        this.board.remove(this);
+   }
+ }
 
 //////////////////////////////////////////////////////////
 /// DEATH

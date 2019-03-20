@@ -306,8 +306,9 @@ var Frog = function() {
     //Variables auxiliares que controlan si la rana se sale de los límites
     var auxX = this.x;
     var auxY = this.y;
+
+    //Variable que controla si se puede ejecutar la animación
     var animation = false;
-    var pixelesRecorridos = 0;
 
     //Movimientos
     if(Game.keys['left'] && this.jumpTime < 0) {
@@ -315,6 +316,7 @@ var Frog = function() {
       if(auxX > 0) {
         this.x += -40;
         this.jumpTime = this.jumpStep;
+        this.animation = true;
       }
     }
     else if(Game.keys['right'] && this.jumpTime < 0) {
@@ -322,6 +324,7 @@ var Frog = function() {
       if(auxX < Game.width - this.w / 2) {
         this.x += 40;
         this.jumpTime = this.jumpStep;
+        this.animation = true;
       }
     }
     else if(Game.keys['up'] && this.jumpTime < 0) {
@@ -337,6 +340,7 @@ var Frog = function() {
       if(auxY < Game.height) {
         this.y += 48;
         this.jumpTime = this.jumpStep;
+        this.animation = true;
       }
     }
     else { this.vx = 0; this.vy = 0; }

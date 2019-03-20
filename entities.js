@@ -301,6 +301,7 @@ var Frog = function() {
   this.y = game.height - this.h;
   this.jumpTime = this.jumpStep;
   this.subFrame = 0;
+  this.onTrunk = false;
 
   this.step = function(dt) {
 
@@ -357,14 +358,47 @@ var Frog = function() {
         this.animation = false;
       }
     }
+
+    //Comprobamos que colisione con el tronco
+    var collision = this.board.collide(this, OBJECT_TRONCO);
+    if(collision.sprite == 'tronco_pequeño') {
+      this.onTrunk = true;
+      this.vx = -troncos.tronco_pequeño.V;
+    }
+    else if(collision.sprite == 'tronco_mediano') {
+      this.onTrunk = true;
+      this.vx = troncos.tronco_mediano.V;
+    }
+    else if(collision.sprite == "tronco_grande") {
+      this.onTrunk = true;
+      this.vx = -troncos.tronco_grande.V;
+    }
+    else {
+      this.onTrunk = false;
+      this.vx = 0;
+    }
+
+    if(this.x > 0 + 15 && this.x < Game.width - this.w / 2 - 15)
+      this.x += this.vx * dt;
   }
 };
 
 Frog.prototype = new Sprite();
 Frog.prototype.type = OBJECT_PLAYER;
+Frog.prototype.draw = function(ctx) {
+  var s = SpriteSheet.map[this.sprite];
+  if(!this.frame) this.frame = 0;
+  rotation = this.angle * Math.PI / 180;
+  ctx.save();
+  ctx.translate(this.x + s.w / 2, this.y + s.h / 2);
+  ctx.rotate(rotation);
+  ctx.drawImage(SpriteSheet.image, s.sx + this.frame * s.w, s.sy, s.w, s.h, 
+       -s.w / 2, -s.h / 2, s.w, s.h);
+  ctx.restore();
+}
 
 Frog.prototype.hit = function() {
-  if(this.board.remove(this)) {
+  if(!this.onTrunk && this.board.remove(this)) {
     this.board.add(new Death(this.x + this.w/2, this.y + this.h/2));
     loseGame();
   }
@@ -417,6 +451,7 @@ var troncos = {
 var Tronco = function(blueprint) {
   this.merge(this.baseParameters);
   this.setup(blueprint.sprite,blueprint);
+  var onTrunk = false;
 }
 
 Tronco.prototype = new Sprite();
@@ -427,10 +462,11 @@ Tronco.prototype.step = function(dt) {
 
   this.vx = this.V*this.D;
   this.x += this.vx*dt;
-   if(this.x < -this.w || this.x > Game.width) {
+  if(this.x < -this.w || this.x > Game.width) {
         this.board.remove(this);
    }
  }
+
 //////////////////////////////////////////////////////////
 /// COCHES
 //////////////////////////////////////////////////////////

@@ -362,7 +362,7 @@ var Frog = function() {
 Frog.prototype = new Sprite();
 Frog.prototype.type = OBJECT_PLAYER;
 
-Frog.prototype.hit = function(damage) {
+Frog.prototype.hit = function() {
   if(this.board.remove(this)) {
     loseGame();
   }
@@ -405,3 +405,23 @@ Vehiculo.prototype.step = function(dt) {
        this.board.remove(this);
   }
 }
+
+
+//////////////////////////////////////////////////////////
+/// DEATH
+//////////////////////////////////////////////////////////
+var Death = function(centerX,centerY) {
+  this.setup('calaveras', { frame: 0 });
+  this.x = centerX - this.w/2;
+  this.y = centerY - this.h/2;
+  this.subFrame = 0;
+};
+
+Death.prototype = new Sprite();
+
+Death.prototype.step = function(dt) {
+  this.frame = Math.floor(this.subFrame++ / 3);
+  if(this.subFrame >= 9) {
+    this.board.remove(this);
+  }
+};

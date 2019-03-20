@@ -9,7 +9,7 @@ var level1 = [
    [ 2, 5000, 'tronco_mediano', 1 ],
    [ 1, 5000, 'tronco_grande', 1 ],
    [ 1, 5000, 'tortuga', 2],
-   [ 1, 5000, 'tortuga', 2 , {x: 0, y: 100, V: 120}]
+   [ 1, 5000, 'tortuga', 2 , {x: 0, y: 100}]
  ];
  
  var Spawner = function(levelData,callback) {

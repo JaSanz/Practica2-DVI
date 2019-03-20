@@ -9,24 +9,24 @@ camion_grande: {sx: 147, sy: 62, w: 200, h: 47, frames: 1},
 tronco_pequeño: {sx: 270, sy: 171, w: 130, h: 40, frames: 1},
 tronco_mediano: {sx: 9, sy: 122, w: 191, h: 40, frames: 1},
 tronco_grande: {sx: 9, sy: 171, w: 247, h: 40, frames: 1},
-calaveras: {sx: 211, sy: 128, w: 45, h: 35, frames: 4},
+calaveras: {sx: 211, sy: 128, w: 48, h: 35, frames: 4},
 nenufar: {sx: 3, sy: 234, w: 45, h: 41, frames: 1},
 mosca: {sx: 54, sy: 239, w: 36, h: 34, frames: 1},
-tile_azul: {sx: 157, sy: 224, w: 58, h: 58, frames: 1},
+tile_azul: {sx: 160, sy: 226, w: 40, h: 48, frames: 1},
 tile_verde: {sx: 94, sy: 224, w: 58, h: 58, frames: 1},
 tile_negro: {sx: 221, sy: 224, w: 58, h: 58, frames: 1},
 arbusto: {sx: 285, sy: 224, w: 58, h: 58, frames: 1},
 arbusto_nenufar: {sx: 348, sy: 224, w: 58, sy: 58, frames: 1},
 tortuga: {sx: 5, sy: 288, w: 49, h: 46, frames: 1},
-rana: {sx: 0, sy: 339, w: 40, h: 53, frames: 7}
+rana: {sx: 0, sy: 339, w: 40, h: 48, frames: 7}
 };
 
 var OBJECT_PLAYER = 1,
-    OBJECT_VEHICULO = 4;
-    //OBJECT_PLAYER_PROJECTILE = 2,
-    //OBJECT_ENEMY = 4,
-    //OBJECT_ENEMY_PROJECTILE = 8,
-    //OBJECT_POWERUP = 16;
+    OBJECT_VEHICULO = 2,
+    OBJECT_TRONCO = 4,
+    OBJECT_TORTUGA = 8,
+    OBJECT_AGUA = 16,
+    OBJECT_ARBUSTO = 32;
 
 
 /// CLASE PADRE SPRITE
@@ -329,6 +329,7 @@ var Frog = function() {
         this.x += 40;
         this.jumpTime = this.jumpStep;
         this.animation = true;
+        
       }
     }
     else if(Game.keys['up'] && this.jumpTime < 0) {
@@ -364,6 +365,7 @@ Frog.prototype.type = OBJECT_PLAYER;
 
 Frog.prototype.hit = function() {
   if(this.board.remove(this)) {
+    this.board.add(new Death(this.x + this.w/2, this.y + this.h/2));
     loseGame();
   }
 }
@@ -410,7 +412,7 @@ Vehiculo.prototype.step = function(dt) {
 
 
 //////////////////////////////////////////////////////////
-/// DEATH
+/// MUERTE
 //////////////////////////////////////////////////////////
 var Death = function(centerX,centerY) {
   this.setup('calaveras', { frame: 0 });
@@ -422,8 +424,28 @@ var Death = function(centerX,centerY) {
 Death.prototype = new Sprite();
 
 Death.prototype.step = function(dt) {
-  this.frame = Math.floor(this.subFrame++ / 3);
-  if(this.subFrame >= 9) {
-    this.board.remove(this);
+  this.frame = Math.floor(this.subFrame++ / 10);
+  if(this.subFrame >= 40) {
+      this.board.remove(this);
   }
 };
+
+//////////////////////////////////////////////////////////
+/// AGUA
+//////////////////////////////////////////////////////////
+var Water = function(centerX, centerY) {
+  this.setup('tile_azul');
+  this.x = centerX;
+  this.y = centerY;
+
+  this.step = function(dt){
+    var collision = this.board.collide(this,OBJECT_PLAYER);
+    if(collision) {
+      collision.hit();
+    }
+  }
+};
+
+Water.prototype = new Sprite();
+Water.prototype.type = OBJECT_AGUA;
+Water.prototype.draw = function(ctx) {}

@@ -12,7 +12,23 @@ var playGame = function() {
   board.add(new Level(level1,winGame));
 
   Game.setBoard(0, board);
+<<<<<<< HEAD
   Game.setBoard(1, new Frog());
+=======
+
+  //Game.setBoard(2, new Frog());
+
+  var agua = new GameBoard();
+  for(i = 0; i < 13; ++i) {
+    for(j = 1; j < 6; ++j) {
+      agua.add(new Water(i * 40 + 15, j * 48));
+    }
+  }
+
+  agua.add(new Frog());
+
+  Game.setBoard(1, agua);
+>>>>>>> 046e96f6379e36a4fedba39df386030dcccad524
 }
 
 var winGame = function() {

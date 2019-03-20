@@ -1,15 +1,15 @@
 var level1 = [
   // Start,  Gap,  Type,   Enemy
-   [ 0, 3000, 'coche_azul', 0, {x: 300} ],
-   [ 1, 5000, 'coche_verde', 0 ],
-   [ 2, 2000, 'coche_amarillo', 0],
+   [ 0, 3000, 'coche_azul', 0 ],
+   [ 2, 2000, 'coche_verde', 0 ],
+   [ 3, 100, 'coche_amarillo', 0],
    [ 3, 5000, 'camion_bomberos', 0 ],
    [ 4, 5000, 'camion_grande', 0 ],
    [ 3, 2000, 'tronco_pequeño', 1 ],
    [ 2, 5000, 'tronco_mediano', 1 ],
    [ 1, 5000, 'tronco_grande', 1 ],
-   [ 1, 5000, 'tortuga', 2, {y: 100}],
-   [ 1, 5000, 'tortuga', 2 , {y: 100}]
+   [ 1, 5000, 'tortuga', 2],
+   [ 1, 5000, 'tortuga', 2 , {x: 0, y: 100, V: 120}]
  ];
  
  var Spawner = function(levelData,callback) {
@@ -32,7 +32,7 @@ var level1 = [
        // Get the enemy definition blueprint
         if (curShip[3] == 0){
           var vehiculo = vehiculos[curShip[2]];
-          var override = vehiculos[curShip[5]];
+          var override = curShip[4];
           this.board.add(new Vehiculo(vehiculo, override));
         }
         else if (curShip[3] == 1){
@@ -40,7 +40,8 @@ var level1 = [
           this.board.add(new Tronco(tronco));
         }else if (curShip[3] == 2){
           var tortuga = tortugas[curShip[2]];
-          this.board.add(new Tortuga(tortuga));
+          var override = curShip[4];
+          this.board.add(new Tortuga(tortuga, override));
         }
        // Increment the start time by the gap
        curShip[0] += curShip[1];

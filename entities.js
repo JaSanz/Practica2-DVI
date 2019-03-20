@@ -433,7 +433,7 @@ Tortuga.prototype.step = function(dt) {
    }
 
    this.frame = Math.floor(this.subFrame++ / 9);
-   if(this.subFrame > 45) {
+   if(this.subFrame > 36) {
      this.subFrame = 0;
    }
  }

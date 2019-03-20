@@ -3,8 +3,8 @@
   Game.setBoard(0,new TitleScreen("Frogger", 
                                   "Press up, down, left or right to start playing",
                                   playGame));
-}*/
-
+}
+*/
 var playGame = function() {
 
   var board = new GameBoard();
@@ -49,5 +49,5 @@ var loseGame = function() {
 // y este después de realizar la inicialización llamará a
 // startGame
 window.addEventListener("load", function() {
-  Game.initialize("game",sprites,startGame);
+  Game.initialize("game",sprites,playGame);
 });

@@ -363,15 +363,12 @@ var Frog = function() {
 Frog.prototype = new Sprite();
 Frog.prototype.type = OBJECT_PLAYER;
 
-<<<<<<< HEAD
-=======
 Frog.prototype.hit = function() {
   if(this.board.remove(this)) {
     this.board.add(new Death(this.x + this.w/2, this.y + this.h/2));
     loseGame();
   }
 }
->>>>>>> 046e96f6379e36a4fedba39df386030dcccad524
 
 //////////////////////////////////////////////////////////
 /// COCHES

@@ -302,6 +302,7 @@ var Frog = function() {
   this.jumpTime = this.jumpStep;
   this.subFrame = 0;
   this.onTrunk = false;
+  this.onTurtle = false;
 
   this.step = function(dt) {
 
@@ -361,6 +362,7 @@ var Frog = function() {
 
     //Comprobamos que colisione con el tronco
     var collision = this.board.collide(this, OBJECT_TRONCO);
+    var collision2 = this.board.collide(this, OBJECT_TORTUGA);
     if(collision.sprite == 'tronco_pequeño') {
       this.onTrunk = true;
       this.vx = -troncos.tronco_pequeño.V;
@@ -369,12 +371,17 @@ var Frog = function() {
       this.onTrunk = true;
       this.vx = troncos.tronco_mediano.V;
     }
-    else if(collision.sprite == "tronco_grande") {
+    else if(collision.sprite == 'tronco_grande') {
       this.onTrunk = true;
       this.vx = -troncos.tronco_grande.V;
     }
+    else if(collision2.sprite == 'tortuga') {
+      this.onTurtle = true;
+      this.vx = -tortugas.V;
+    }
     else {
       this.onTrunk = false;
+      this.onTurtle = false;
       this.vx = 0;
     }
 
@@ -398,7 +405,7 @@ Frog.prototype.draw = function(ctx) {
 }
 
 Frog.prototype.hit = function() {
-  if(!this.onTrunk && this.board.remove(this)) {
+  if(!this.onTrunk && this.board.remove(this)){//|| !this.onTurtle && this.board.remove(this)) {
     this.board.add(new Death(this.x + this.w/2, this.y + this.h/2));
     loseGame();
   }
@@ -451,7 +458,6 @@ var troncos = {
 var Tronco = function(blueprint) {
   this.merge(this.baseParameters);
   this.setup(blueprint.sprite,blueprint);
-  var onTrunk = false;
 }
 
 Tronco.prototype = new Sprite();

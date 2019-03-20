@@ -363,16 +363,40 @@ var Frog = function() {
 Frog.prototype = new Sprite();
 Frog.prototype.type = OBJECT_PLAYER;
 
-<<<<<<< HEAD
-=======
 Frog.prototype.hit = function() {
   if(this.board.remove(this)) {
     this.board.add(new Death(this.x + this.w/2, this.y + this.h/2));
     loseGame();
   }
 }
->>>>>>> 046e96f6379e36a4fedba39df386030dcccad524
 
+//////////////////////////////////////////////////////////
+/// TRONCOS
+//////////////////////////////////////////////////////////
+
+var troncos = {
+  tronco_pequeño:      { x: 550,   y: 240, sprite: 'tronco_pequeño', V: 100, D: -1 },
+  tronco_mediano:      { x: -50,   y: 144, sprite: 'tronco_mediano', V: 70, D: 1 },
+  tronco_grande:       { x: 550,   y: 48, sprite: 'tronco_grande',V: 150, D: -1 }
+};
+
+var Tronco = function(blueprint) {
+  this.merge(this.baseParameters);
+  this.setup(blueprint.sprite,blueprint);
+}
+
+Tronco.prototype = new Sprite();
+Tronco.prototype.baseParameters = { V: 0, D: 0,};
+Tronco.prototype.type = OBJECT_TRONCO;
+
+Tronco.prototype.step = function(dt) {
+
+  this.vx = this.V*this.D;
+  this.x += this.vx*dt;
+   if(this.x < -this.w || this.x > Game.width) {
+        this.board.remove(this);
+   }
+ }
 //////////////////////////////////////////////////////////
 /// COCHES
 //////////////////////////////////////////////////////////
@@ -392,8 +416,6 @@ var Vehiculo = function(blueprint) {
 
 Vehiculo.prototype = new Sprite();
 Vehiculo.prototype.baseParameters = { V: 0, D: 0,};
-
-
 Vehiculo.prototype.type = OBJECT_VEHICULO;
 
 Vehiculo.prototype.step = function(dt) {
@@ -402,6 +424,11 @@ Vehiculo.prototype.step = function(dt) {
   this.x += this.vx*dt;
    if(this.x < -this.w || this.x > Game.width) {
         this.board.remove(this);
+   }
+
+   var collision = this.board.collide(this,OBJECT_PLAYER);
+   if(collision) {
+     collision.hit();
    }
  }
 

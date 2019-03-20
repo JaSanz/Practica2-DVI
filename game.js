@@ -9,7 +9,6 @@ var playGame = function() {
 
   var board = new GameBoard();
   board.add(new Fondo());
-  board.add(new Level(level1,winGame));
 
   Game.setBoard(0, board);
 
@@ -21,6 +20,8 @@ var playGame = function() {
       agua.add(new Water(i * 40 + 15, j * 48));
     }
   }
+
+  agua.add(new Level(level1,winGame));
 
   agua.add(new Frog());
 

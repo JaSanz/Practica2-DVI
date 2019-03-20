@@ -1,9 +1,9 @@
 var sprites = {
 titulo: {sx: 8, sy: 395, w: 411, h: 161, frames: 1},
 fondo: {sx: 421, sy: 0, w: 550, h: 624, frames: 1},
-coche_azul: {sx: 8, sy: 5, w: 90, h: 50, frames: 1},
-coche_verde: {sx: 108, sy: 5, w: 96, h: 50, frames: 1},
-coche_amarillo: {sx: 213, sy: 5, w: 95, h: 50, frames: 1},
+coche_azul: {sx: 8, sy: 5, w: 90, h: 48, frames: 1},
+coche_verde: {sx: 108, sy: 5, w: 96, h: 48, frames: 1},
+coche_amarillo: {sx: 213, sy: 5, w: 95, h: 48, frames: 1},
 camion_bomberos: {sx: 6, sy: 62, w: 125, h: 45, frames: 1},
 camion_grande: {sx: 147, sy: 62, w: 200, h: 47, frames: 1},
 tronco_pequeño: {sx: 270, sy: 171, w: 130, h: 40, frames: 1},
@@ -295,10 +295,10 @@ Fondo.prototype = new Sprite();
 /////////////////////////////////////////////////////////
 
 var Frog = function() {
-  this.setup('rana', {vx: 0, vy: 0, maxVel: 48, jumpStep: 0.1, frame: 0});
+  this.setup('rana', {vx: 0, vy: 0, maxVel: 48, jumpStep: 0.12, frame: 0});
 
   this.x = Game.width / 2 - this.w / 2;
-  this.y = game.height - 10 - this.h + 19; //El +19 es para ajustarla completamente en el medio
+  this.y = game.height - this.h;
   this.jumpTime = this.jumpStep;
   this.subFrame = 0;
 
@@ -426,11 +426,18 @@ Vehiculo.prototype.step = function(dt) {
         this.board.remove(this);
    }
 
+<<<<<<< HEAD
    var collision = this.board.collide(this,OBJECT_PLAYER);
    if(collision) {
      collision.hit();
    }
  }
+=======
+  var collision = this.board.collide(this,OBJECT_PLAYER);
+    if(collision)
+      collision.hit();
+}
+>>>>>>> af2ba7e166092914f2b61ee79074be5bdcbf451f
 
 //////////////////////////////////////////////////////////
 /// MUERTE

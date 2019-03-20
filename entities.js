@@ -21,7 +21,8 @@ tortuga: {sx: 5, sy: 288, w: 49, h: 46, frames: 1},
 rana: {sx: 0, sy: 339, w: 40, h: 53, frames: 7}
 };
 
-var OBJECT_PLAYER = 1;
+var OBJECT_PLAYER = 1,
+    OBJECT_VEHICULO = 4;
     //OBJECT_PLAYER_PROJECTILE = 2,
     //OBJECT_ENEMY = 4,
     //OBJECT_ENEMY_PROJECTILE = 8,
@@ -274,7 +275,10 @@ var Starfield = function(speed,opacity,numStars,clear) {
   }
 }*/
 
+/////////////////////////////////////////////////////////
 //FONDO
+/////////////////////////////////////////////////////////
+
 var Fondo = function() {
   this.setup('fondo');
 
@@ -286,7 +290,10 @@ var Fondo = function() {
 
 Fondo.prototype = new Sprite();
 
+/////////////////////////////////////////////////////////
 //RANA
+/////////////////////////////////////////////////////////
+
 var Frog = function() {
   this.setup('rana', {vx: 0, vy: 0, maxVel: 48, jumpStep: 0.1, frame: 0});
 
@@ -354,3 +361,49 @@ var Frog = function() {
 
 Frog.prototype = new Sprite();
 Frog.prototype.type = OBJECT_PLAYER;
+
+Frog.prototype.hit = function(damage) {
+  if(this.board.remove(this)) {
+    loseGame();
+  }
+}
+
+//////////////////////////////////////////////////////////
+/// COCHES
+//////////////////////////////////////////////////////////
+
+var vehiculos = {
+  coche_azul:       { x: 0,   y: -50, sprite: 'coche_azul', E: 100 },
+  coche_verde:      { x: 50,   y: -100, sprite: 'coche verde', E: 200  },
+  coche_amarillo:   { x: 100,   y: -50, sprite: 'coche_amarillo',E: 200 },
+  camion_bomberos:   { x: 150, y: -50, sprite: 'camion_bombero', E: 100 },
+  camion_grande:     { x: 200,   y: -50, sprite: 'camion_grande', E: 60 },   
+
+};
+
+var Vehiculo = function(blueprint,override) {
+  this.merge(this.baseParameters);
+  this.setup(blueprint.sprite,blueprint);
+  this.merge(override);
+}
+
+Vehiculo.prototype = new Sprite();
+Vehiculo.prototype.baseParameters = { A: 0, B: 0, C: 0, D: 0, 
+                                   E: 0, F: 0, G: 0, H: 0,
+                                   t: 0, damage: 1 };
+
+
+Vehiculo.prototype.type = OBJECT_VEHICULO;
+
+Vehiculo.prototype.step = function(dt) {
+  this.t += dt;
+ // this.vx = this.A + this.B * Math.sin(this.C * this.t + this.D);
+ // this.vy = this.E + this.F * Math.sin(this.G * this.t + this.H);
+  this.x += this.vx * dt * this.E;
+  this.y += this.vy * dt * this.E;
+  if(this.y > Game.height ||
+     this.x < -this.w ||
+     this.x > Game.width) {
+       this.board.remove(this);
+  }
+}

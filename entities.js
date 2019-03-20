@@ -21,7 +21,7 @@ tile_negro: {sx: 221, sy: 224, w: 58, h: 58, frames: 1},
 arbusto: {sx: 285, sy: 224, w: 58, h: 58, frames: 1},
 arbusto_nenufar: {sx: 348, sy: 224, w: 58, sy: 58, frames: 1},
 tortuga: {sx: 5, sy: 288, w: 49, h: 46, frames: 1},
-rana: {sx: 0, sy: 339, w: 37, h: 53, frames: 7}
+rana: {sx: 0, sy: 339, w: 40, h: 53, frames: 7}
 };
 
 var OBJECT_PLAYER = 1;
@@ -285,49 +285,71 @@ var Fondo = function() {
   this.y = 0;
 
   this.step = function(dt) {}
-}
+};
 
 Fondo.prototype = new Sprite();
 
 //RANA
 var Frog = function() {
-  this.setup('rana', {vx: 0, vy: 0, maxVel: 40, jumpStep: 0.15});
+  this.setup('rana', {vx: 0, vy: 0, maxVel: 48, jumpStep: 0.1, frame: 0});
 
   this.x = Game.width / 2 - this.w / 2;
-  this.y = game.height - 10 - this.h;
+  this.y = game.height - 10 - this.h + 19; //El +19 es para ajustarla completamente en el medio
   this.jumpTime = this.jumpStep;
+  this.subFrame = 0;
 
   this.step = function(dt) {
 
-    if(Game.keys['left']) { this.x += -40; }
-    else if(Game.keys['right']) { this.x += 40; }
-    else if(Game.keys['up']) { this.y += -48; }
-    else if(Game.keys['down']) { this.y += 48; }
-    else { this.x += 0; this.y += 0; }
-
-    //this.x += this.vx;
-    //this.y += this.vy
-
-    if(this.x < 0) { this.x = 0; }
-    else if(this.x > Game.width - this.w) { 
-      this.x = Game.width - this.w;
-    }
-    if(this.y < 0) { this.y = 0 }
-    else if(this.y > Game.height - this.w) {
-      this.y = Game.height - this.w;
-    }
-
+    //Variable que nos permite controlar la velocidad de movimiento de la rana
     this.jumpTime -= dt;
-    if((Game.keys['left'] || Game.keys['right'] || Game.keys['up'] || Game.keys['down']) &&
-       this.jumpTime < 0) {
-         Game.keys['left'] = false;
-         Game.keys['right'] = false;
-         Game.keys['up'] = false;
-         Game.keys['down'] = false;
-         this.jumpTime = this.jumpStep;
+
+    //Variables auxiliares que controlan si la rana se sale de los límites
+    var auxX = this.x;
+    var auxY = this.y;
+    var animation = false;
+    var pixelesRecorridos = 0;
+
+    //Movimientos
+    if(Game.keys['left'] && this.jumpTime < 0) {
+      auxX += -40;
+      if(auxX > 0) {
+        this.x += -40;
+        this.jumpTime = this.jumpStep;
+      }
+    }
+    else if(Game.keys['right'] && this.jumpTime < 0) {
+      auxX += 40;
+      if(auxX < Game.width - this.w / 2) {
+        this.x += 40;
+        this.jumpTime = this.jumpStep;
+      }
+    }
+    else if(Game.keys['up'] && this.jumpTime < 0) {
+      auxY += -48;
+      if(auxY > 0) {
+        this.y += -this.maxVel;
+        this.jumpTime = this.jumpStep;
+        this.animation = true;
+      }
+    }
+    else if(Game.keys['down'] && this.jumpTime < 0) {
+      auxY += 48;
+      if(auxY < Game.height) {
+        this.y += 48;
+        this.jumpTime = this.jumpStep;
+      }
+    }
+    else { this.vx = 0; this.vy = 0; }
+
+    if(this.animation) {
+      this.frame = Math.floor(this.subFrame++ / 2);
+      if(this.subFrame > 12) {
+        this.subFrame = 0;
+        this.animation = false;
+      }
     }
   }
-}
+};
 
 Frog.prototype = new Sprite();
 Frog.prototype.type = OBJECT_PLAYER;

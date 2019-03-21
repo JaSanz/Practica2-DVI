@@ -237,6 +237,15 @@ var GameBoard = function() {
      }
   };
 
+  // Call the same method on all current objects in inverse
+  this.iterateReverse = function(funcName) {
+    var args = Array.prototype.slice.call(arguments,1);
+    for(var i=this.objects.length - 1,len=0; i >= len; i--) {
+      var obj = this.objects[i];
+      obj[funcName].apply(obj,args);
+    }
+ };
+
   // Find the first object for which func is true
   this.detect = function(func) {
     for(var i = 0,val=null, len=this.objects.length; i < len; i++) {
@@ -256,7 +265,8 @@ var GameBoard = function() {
 
   // Draw all the objects
   this.draw= function(ctx) {
-    this.iterate('draw',ctx);
+    //this.iterate('draw',ctx);
+    this.iterateReverse('draw',ctx);
   };
 
   this.overlap = function(o1,o2) {

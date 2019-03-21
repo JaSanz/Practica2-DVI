@@ -1,9 +1,13 @@
 // Especifica lo que se debe pintar al cargar el juego
 var startGame = function() {
-  Game.setBoard(0, new Title());
-  Game.setBoard(1,new TitleScreen("",
-                                  "Press space to start playing",
-                                  playGame));
+  var board = new GameBoard();
+
+  board.add(new Title());
+  board.add(new TitleScreen("",
+     "Press space to start playing",
+     playGame));
+  board.add(new Fondo());
+  Game.setBoard(0, board);
 }
 
 var playGame = function() {
@@ -15,13 +19,13 @@ var playGame = function() {
 
   var agua = new GameBoard();
 
-  for(i = 0; i < 13; ++i) {
+  for(i = 0; i < 14; ++i) {
     for(j = 1; j < 6; ++j) {
-      agua.add(new Water(i * 40 + 15, j * 48));
+      agua.add(new Water(i * 40, j * 48));
     }
   }
-  for(z = 0; z < 13; ++z) {
-    agua.add(new Home(z * 40 + 15, 0));
+  for(z = 0; z < 14; ++z) {
+    agua.add(new Home(z * 40, 0));
   }
   
   agua.add(new Spawner(level1,winGame));

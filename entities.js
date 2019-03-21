@@ -78,7 +78,7 @@ Fondo.prototype = new Sprite();
 /////////////////////////////////////////////////////////
 
 var Frog = function() {
-  this.setup('rana', {vx: 0, vy: 0, maxVel: 48, jumpStep: 0.12, frame: 0});
+  this.setup('rana', {vx: 0, vy: 0, maxVel: 48, jumpStep: 0.12, frame: 0, angle: 0});
 
   this.x = Game.width / 2 - this.w / 2;
   this.y = game.height - this.h;
@@ -99,8 +99,12 @@ var Frog = function() {
     //Variable que controla si se puede ejecutar la animación
     var animation = false;
 
+    if(this.x < 15) this.x = 15;
+    else if(this.x > Game.width - this.w / 2 - 15) this.x = Game.width - this.w / 2 - 15;
+
     //Movimientos
     if(Game.keys['left'] && this.jumpTime < 0) {
+      this.angle = -90;
       auxX += -40;
       if(auxX > 0) {
         this.x += -40;
@@ -109,6 +113,7 @@ var Frog = function() {
       }
     }
     else if(Game.keys['right'] && this.jumpTime < 0) {
+      this.angle = 90;
       auxX += 40;
       if(auxX < Game.width - this.w / 2) {
         this.x += 40;
@@ -118,6 +123,7 @@ var Frog = function() {
       }
     }
     else if(Game.keys['up'] && this.jumpTime < 0) {
+      this.angle = 0;
       auxY += -48;
       if(auxY >= 0) {
         this.y += -this.maxVel;
@@ -126,6 +132,7 @@ var Frog = function() {
       }
     }
     else if(Game.keys['down'] && this.jumpTime < 0) {
+      this.angle = 180;
       auxY += 48;
       if(auxY < Game.height) {
         this.y += 48;
@@ -168,14 +175,14 @@ var Frog = function() {
       this.vx = 0;
     }
 
-    if(this.x > 0 + 15 && this.x < Game.width - this.w / 2 - 15)
+    if(this.x >= 0 + 15 && this.x <= Game.width - this.w / 2 - 15)
       this.x += this.vx * dt;
   }
 };
 
 Frog.prototype = new Sprite();
 Frog.prototype.type = OBJECT_PLAYER;
-/*Frog.prototype.draw = function(ctx) {
+Frog.prototype.draw = function(ctx) {
   var s = SpriteSheet.map[this.sprite];
   if(!this.frame) this.frame = 0;
   rotation = this.angle * Math.PI / 180;
@@ -185,7 +192,7 @@ Frog.prototype.type = OBJECT_PLAYER;
   ctx.drawImage(SpriteSheet.image, s.sx + this.frame * s.w, s.sy, s.w, s.h, 
        -s.w / 2, -s.h / 2, s.w, s.h);
   ctx.restore();
-}*/
+}
 
 Frog.prototype.hit = function() {
   if(!this.onTrunk && !this.onTurtle && this.board.remove(this)){

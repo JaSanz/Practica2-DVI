@@ -28,7 +28,7 @@ var level1 = [
   // Update the current time offset
    this.t += dt*1000;
    while((curShip = this.levelData[idx]) && 
-         (curShip[0] < this.t + 2000)) {
+         (curShip[0] < this.t)) {
        // Get the enemy definition blueprint
         if (curShip[3] == 0){
           var vehiculo = vehiculos[curShip[2]];
